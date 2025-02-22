@@ -7,13 +7,13 @@ import plotly.express as px
 
 # load data
 def load_data():
-    file_path = r"C:\Users\aralp\Desktop\GamePlan\rosters_2024\miami_2024.xlsx"
-    df = pd.read_excel(file_path)
+    file_path = r"C:\Users\aralp\Desktop\GamePlan\rosters_2024\miami_2024.csv"
+    df = pd.read_csv(file_path)
     return df
 
 
 def app():
-    st.title("locker room")
+    st.title("Welcome to the Locker Room!")
 
     # Load Data
     df = load_data()
