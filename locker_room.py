@@ -1,19 +1,26 @@
-# Packages
+# packages
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
-# Load Data
+# page function: choose team, load player and team stats
+
+# load data
 def load_data():
     file_path = r"C:\Users\aralp\Desktop\GamePlan\rosters_2024\miami_2024.xlsx"
     df = pd.read_excel(file_path)
     return df
 
-# Main function
-def main():
-    st.title("📊 Interactive Team Player Stats")
+
+def app():
+    st.title("locker room")
 
     # Load Data
     df = load_data()
+
+    # display as interactive table
+    st.write("### Full Team Stats:")
+    st.dataframe(df, use_container_width=True)
 
     # Select a player from the table
     st.write("### Select a Player to View Details:")
@@ -50,9 +57,3 @@ def main():
             st.write(f"**Clean Sheets:** {player_data['clean_sheet']}")
             st.write(f"**Goals Against:** {player_data['goals_against']}")
             st.write(f"**Goals Saved:** {player_data['goals_saved']}")
-
-    # Display as interactive table (sortable, searchable)
-    st.write("### Full Team Stats:")
-    st.dataframe(df, use_container_width=True)
-
-main()
