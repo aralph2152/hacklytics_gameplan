@@ -8,6 +8,8 @@ import locker_room
 import scorecast
 import play_book
 
+st.set_page_config(page_title="GamePlan", layout="wide")
+
 st.image(r"C:\Users\aralp\Desktop\GamePlan\banner.jpg", use_container_width=True)  # Replace with the actual path to your imag
 
 # navigation bar
