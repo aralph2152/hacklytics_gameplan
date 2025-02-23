@@ -12,16 +12,15 @@ def app():
     if "selected_clubs" not in st.session_state:
         st.session_state.selected_clubs = ["", "", ""]
 
-
     st.markdown(
-        "<h1 style='text-align: center; font-style: italic;'>So, what's your "
-        "<span style='font-weight: bold; font-style: normal; color: #FF5733;'>GamePlan</span>"
-        "<span style='font-style: normal; color: #FF5733;'>?</span></h1>",
+        "<h1 style='text-align: center; font-style: italic; color: #a9a9a9;'>So, what's your "
+        "<span style='font-weight: bold; font-style: normal; color: #ffffff;'>GamePlan</span>"
+        "<span style='font-style: normal; color: #ffffff;'>?</span></h1>",
         unsafe_allow_html=True,
     )
 
     st.markdown(
-        "<h4 style='text-align: center;'>To get started, select 3 MLS clubs.</h4>",
+        "<h4 style='text-align: center; color: #a9a9a9;'>To get started, select 3 MLS clubs.</h4>",
         unsafe_allow_html=True,
     )
 
@@ -55,3 +54,9 @@ def app():
                 if logo_url and logo_url.startswith("http"):
                     st.markdown(f"<p style='text-align: center;'><img src='{logo_url}' width='100'></p>", unsafe_allow_html=True)
                 st.markdown(f"<h5 style='text-align: center;'>{club}</h5>", unsafe_allow_html=True)
+
+    if len(selected_clubs) == 3:
+        st.markdown(
+            "<h4 style='text-align: center; color: #a9a9a9;'><br>Great choices! Now, view your financial data, <br>roster statistics, match-up predictions, and the playbook <br>using the navigation bar.</h4>",
+            unsafe_allow_html=True,
+        )

@@ -3,8 +3,10 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
 def load_data():
     return pd.read_csv(r"C:\Users\aralp\Desktop\GamePlan\money_2024\mls_finances.csv")
+
 
 def app():
     st.markdown(
@@ -13,14 +15,31 @@ def app():
     )
 
     st.markdown(
-        "<h4 style='text-align: center;'>You're inside the Box Office.</h4>",
+        "<h4 style='text-align: center;'>Take a look inside the Box Office.</h4>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
+        <style>
+        div[data-baseweb="checkbox"] * {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: transparent !important;
+        }
+
+        div[data-baseweb="checkbox"] input:checked + div {
+            background-color: #9f9f9f !important; 
+        }
+        </style>
+        """,
         unsafe_allow_html=True,
     )
 
     df = load_data()
-    selected_teams = st.session_state.get("selected_clubs", [])  # Use correct key
+    selected_teams = st.session_state.get("selected_clubs", [])
 
-    color_map = df.set_index('club')['color'].to_dict()
+    color_map = {club: color for club, color in sorted(df.set_index('club')['color'].items())}
 
     col1, col2, col3 = st.columns([2.5, 1, 2.5])
     with col2:
@@ -29,36 +48,38 @@ def app():
     if highlight_selected:
         for club in color_map.keys():
             if club not in selected_teams:
-                color_map[club] = "gray"
+                color_map[club] = "#a9a9a9"
     else:
         for club in color_map.keys():
-            color_map[club] = df[df['club'] == club]['color'].values[0]  # Reset original colors
+            color_map[club] = df.loc[df['club'] == club, 'color'].values[0]
 
-    # Club Values - Treemap
 
     fig_value = px.treemap(df, path=["club"], values="value", title="Club Values",
-                        color="club", color_discrete_map=color_map)
+                           color="club", color_discrete_map=color_map)
+    fig_value.update_layout(title_font_size=24)
     st.plotly_chart(fig_value)
 
-    # Revenue - Bar Chart
 
     fig_revenue = px.bar(df.sort_values("revenue", ascending=True),
-                        x="revenue", y="club", title="Revenue by Club",
-                        orientation="h", text_auto=True, color="club", color_discrete_map=color_map)
+                         x="revenue", y="club", title="Season Revenue",
+                         labels={"revenue": "Revenue", "club": "Club"},
+                         orientation="h", text_auto=True, color="club", color_discrete_map=color_map)
+    fig_revenue.update_layout(title_font_size=24)
     st.plotly_chart(fig_revenue)
 
-    # Attendance - Bubble Chart
 
-    fig_attendance = px.scatter(df.sort_values("attendance", ascending=True),
-                                x="attendance", y="club", title="Attendance by Club",
+    fig_attendance = px.scatter(df.sort_values("attendance", ascending=False),
+                                x="attendance", y="club", title="Cumulative Match Attendance",
+                                labels={"attendance": "Attendance", "club": "Club"},
                                 color="club", size="attendance", color_discrete_map=color_map,
                                 size_max=10)
+    fig_attendance.update_layout(title_font_size=24)
     st.plotly_chart(fig_attendance)
 
-    # Payroll - Colored Bar Chart
 
     fig_payroll = px.bar(df.sort_values("payroll", ascending=True),
-                        x="payroll", y="club", title="Payroll by Club",
-                        orientation="h", text_auto=True, color="club", color_discrete_map=color_map)
+                         x="payroll", y="club", title="Roster Payroll",
+                         labels={"payroll": "Payroll", "club": "Club"},
+                         orientation="h", text_auto=True, color="club", color_discrete_map=color_map)
+    fig_payroll.update_layout(title_font_size=24)
     st.plotly_chart(fig_payroll)
-

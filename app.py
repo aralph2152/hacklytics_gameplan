@@ -10,22 +10,39 @@ import play_book
 
 st.set_page_config(page_title="GamePlan", layout="wide")
 
-st.image(r"C:\Users\aralp\Desktop\GamePlan\banner.jpg", use_container_width=True)  # Replace with the actual path to your imag
+st.image(r"C:\Users\aralp\Desktop\GamePlan\banner.jpg", use_container_width=True)
 
-# navigation bar
+
 st.markdown("""
     <style>
+        
         div.stButton > button {
             width: 100%;
-            background-color: #FF4B4B;
-            color: white;
+            background-color: #dcdcdc; 
+            color: black !important; 
             border-radius: 10px;
             padding: 10px;
             border: none;
             font-size: 18px;
         }
         div.stButton > button:hover {
-            background-color: #C13535;
+            background-color: #a9a9a9; 
+            color: black !important; 
+        }
+        div.stButton > button:focus, 
+        div.stButton > button:active {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: transparent !important;
+            background-color: #a9a9a9 !important; 
+            color: black !important; 
+        }
+
+        /* Remove orange focus outline from selection fields (dropdowns, etc.) */
+        div[data-baseweb="select"] * {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: transparent !important;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -42,7 +59,6 @@ if col4.button("ScoreCast"):
     st.session_state["page"] = "ScoreCast"
 if col5.button("Play Book"):
     st.session_state["page"] = "Play Book"
-
 
 if "page" not in st.session_state:
     st.session_state["page"] = "GamePlan"
