@@ -2,15 +2,11 @@
 import streamlit as st
 import pandas as pd
 
-
-# Load roster file paths from Excel
 @st.cache_data
 def load_roster_paths():
     roster_paths = pd.read_csv(r"C:\Users\aralp\Desktop\GamePlan\rosters_2024\roster_paths.csv")
     return roster_paths.set_index("club")["path"].to_dict()  # Convert to dictionary {team: file_path}
 
-
-# Load team data dynamically
 def load_team_data(team, paths_dict):
     if team in paths_dict:
         file_path = paths_dict[team]
@@ -33,18 +29,14 @@ def app():
         unsafe_allow_html=True,
     )
 
-    # Load roster file paths
     roster_paths = load_roster_paths()
 
-    # Get selected teams from session state
     selected_teams = st.session_state.get("selected_clubs", [])
 
-    # Ensure there are selected teams
     if not selected_teams:
         st.warning("Please select teams on the home page.")
         return
 
-    # Create tabs for each team
     tabs = st.tabs(selected_teams)
 
     for tab, team in zip(tabs, selected_teams):
@@ -55,10 +47,9 @@ def app():
                 st.error(f"Roster data for {team} not found.")
                 continue
 
-            # Display all players in a grid layout
-            cols = st.columns(4)  # Create 4 columns for layout
+            cols = st.columns(4)
             for idx, player_data in df.iterrows():
-                col = cols[idx % 4]  # Distribute players across columns
+                col = cols[idx % 4]
                 with col:
                     st.subheader(f"{player_data['player']}  #{player_data['jersey']}")
                     st.image(player_data.get("photo"), use_container_width=True)
@@ -90,7 +81,5 @@ def app():
                         st.markdown("<p>&nbsp;</p>", unsafe_allow_html=True)
                         st.markdown("<p>&nbsp;</p>", unsafe_allow_html=True)
 
-
-            # Display full team stats
             st.write(f"### {team} - Full Team Stats:")
             st.dataframe(df, use_container_width=True)

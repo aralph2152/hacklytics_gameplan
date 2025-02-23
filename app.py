@@ -12,7 +12,6 @@ st.set_page_config(page_title="GamePlan", layout="wide")
 
 st.image(r"C:\Users\aralp\Desktop\GamePlan\banner.jpg", use_container_width=True)
 
-
 st.markdown("""
     <style>
         
@@ -38,7 +37,6 @@ st.markdown("""
             color: black !important; 
         }
 
-        /* Remove orange focus outline from selection fields (dropdowns, etc.) */
         div[data-baseweb="select"] * {
             outline: none !important;
             box-shadow: none !important;

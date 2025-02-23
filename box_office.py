@@ -3,10 +3,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-
 def load_data():
     return pd.read_csv(r"C:\Users\aralp\Desktop\GamePlan\money_2024\mls_finances.csv")
-
 
 def app():
     st.markdown(
@@ -59,14 +57,12 @@ def app():
     fig_value.update_layout(title_font_size=24)
     st.plotly_chart(fig_value)
 
-
     fig_revenue = px.bar(df.sort_values("revenue", ascending=True),
                          x="revenue", y="club", title="Season Revenue",
                          labels={"revenue": "Revenue", "club": "Club"},
                          orientation="h", text_auto=True, color="club", color_discrete_map=color_map)
     fig_revenue.update_layout(title_font_size=24)
     st.plotly_chart(fig_revenue)
-
 
     fig_attendance = px.scatter(df.sort_values("attendance", ascending=False),
                                 x="attendance", y="club", title="Cumulative Match Attendance",
@@ -75,7 +71,6 @@ def app():
                                 size_max=10)
     fig_attendance.update_layout(title_font_size=24)
     st.plotly_chart(fig_attendance)
-
 
     fig_payroll = px.bar(df.sort_values("payroll", ascending=True),
                          x="payroll", y="club", title="Roster Payroll",
